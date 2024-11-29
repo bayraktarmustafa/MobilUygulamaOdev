@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { useUser } from './UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
   const { setUser } = useUser();
@@ -8,23 +9,28 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const isValidEmail = (email) => {
-
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!isValidEmail(email)) {
       alert('Lütfen geçerli bir e-posta adresi girin.');
       return;
     }
 
 
-    if (email === 'test@example.com' && password === 'password') {
-      setUser({ email });
-      navigation.navigate('Home');
+    const userData = await AsyncStorage.getItem('user');
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      if (parsedUserData.email === email && parsedUserData.password === password) {
+        setUser(parsedUserData);
+        navigation.navigate('Home');
+      } else {
+        alert('Geçersiz e-posta veya şifre');
+      }
     } else {
-      alert('Geçersiz e-posta veya şifre');
+      alert('Kullanıcı bulunamadı. Lütfen kayıt olun.');
     }
   };
 
@@ -59,8 +65,22 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 15 },
-  register: { marginTop: 20, textAlign: 'center', color: 'blue' },
+  container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#ffffff' },
+  title: { fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginBottom: 30, color: '#000000' },
+  inputContainer: { marginBottom: 20 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#000000',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    backgroundColor: '#ffffff',
+    elevation: 3
+  },
+  register: {
+    marginTop: 20,
+    textAlign: 'center',
+    color: '#007BFF',
+    fontSize: 16
+  },
 });
