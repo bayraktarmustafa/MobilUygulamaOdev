@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useUser } from './UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -19,11 +19,17 @@ export default function LoginScreen({ navigation }) {
       return;
     }
 
-
     const userData = await AsyncStorage.getItem('user');
     if (userData) {
       const parsedUserData = JSON.parse(userData);
-      if (parsedUserData.email === email && parsedUserData.password === password) {
+
+
+      if (email === 'mustafa.bayraktar4@ogr.sakarya.edu.tr' && password === '123456') {
+        setUser(parsedUserData);
+        navigation.navigate('Admin');
+      }
+
+      else if (parsedUserData.email === email && parsedUserData.password === password) {
         setUser(parsedUserData);
         navigation.navigate('Home');
       } else {
@@ -67,7 +73,6 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#ffffff' },
   title: { fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginBottom: 30, color: '#000000' },
-  inputContainer: { marginBottom: 20 },
   input: {
     borderWidth: 1,
     borderColor: '#000000',
