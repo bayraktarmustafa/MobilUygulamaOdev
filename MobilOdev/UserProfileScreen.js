@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserProfileScreen = () => {
@@ -34,37 +34,39 @@ const UserProfileScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profilim</Text>
-      <TextInput
-        style={styles.input}
-        value={userData.name}
-        onChangeText={(text) => setUserData({ ...userData, name: text })}
-        editable={isEditing}
-        placeholder="Adınız"
-      />
-      <TextInput
-        style={styles.input}
-        value={userData.email}
-        onChangeText={(text) => setUserData({ ...userData, email: text })}
-        editable={isEditing}
-        placeholder="E-posta"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        value={userData.password}
-        onChangeText={(text) => setUserData({ ...userData, password: text })}
-        editable={isEditing}
-        placeholder="Şifre"
-        secureTextEntry
-      />
-      {isEditing ? (
-        <Button title="Kaydet" onPress={handleSaveChanges} />
-      ) : (
-        <Button title="Düzenle" onPress={() => setIsEditing(true)} />
-      )}
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> {/* Klavye kapanmasını sağlar */}
+      <View style={styles.container}>
+        <Text style={styles.title}>Profilim</Text>
+        <TextInput
+          style={styles.input}
+          value={userData.name}
+          onChangeText={(text) => setUserData({ ...userData, name: text })}
+          editable={isEditing}
+          placeholder="Adınız"
+        />
+        <TextInput
+          style={styles.input}
+          value={userData.email}
+          onChangeText={(text) => setUserData({ ...userData, email: text })}
+          editable={isEditing}
+          placeholder="E-posta"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          value={userData.password}
+          onChangeText={(text) => setUserData({ ...userData, password: text })}
+          editable={isEditing}
+          placeholder="Şifre"
+          secureTextEntry
+        />
+        {isEditing ? (
+          <Button title="Kaydet" onPress={handleSaveChanges} />
+        ) : (
+          <Button title="Düzenle" onPress={() => setIsEditing(true)} />
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -88,6 +90,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#ffffff',
     elevation: 2,
+
   },
 });
 

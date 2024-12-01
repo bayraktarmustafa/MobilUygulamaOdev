@@ -7,10 +7,10 @@ const PatientTrackingScreen = () => {
   const [results, setResults] = useState([]);
 
   const fetchResults = async () => {
-    const storedResults = await AsyncStorage.getItem('results'); // Tahlil sonuçlarının saklandığı yer
+    const storedResults = await AsyncStorage.getItem('results');
     if (storedResults) {
       const parsedResults = JSON.parse(storedResults);
-      // Filtreleme işlemi
+
       const filteredResults = parsedResults.filter(result => result.name === patientName);
       setResults(filteredResults);
     } else {

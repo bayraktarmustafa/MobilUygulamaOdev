@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a6d5d97f-6272-4e13-9c40-ef7d451d0722" name="Changes" comment="Storage ile kullanıcı bilgilerinin tutulması ve giriş işlemi">
-      <change afterPath="$PROJECT_DIR$/MobilOdev/AdminScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MobilOdev/CreateGuideScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MobilOdev/DataEntryScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MobilOdev/PatientTrackingScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MobilOdev/SearchGuideScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MobilOdev/TestListScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MobilOdev/UserProfileScreen.js" afterDir="false" />
+    <list default="true" id="a6d5d97f-6272-4e13-9c40-ef7d451d0722" name="Changes" comment="kullanıcı ve yönetici taraflarını düzenleme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MobilOdev/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/MobilOdev/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MobilOdev/LoginScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/MobilOdev/LoginScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MobilOdev/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/MobilOdev/HomeScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MobilOdev/PatientTrackingScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/MobilOdev/PatientTrackingScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MobilOdev/UserProfileScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/MobilOdev/UserProfileScreen.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732897831240</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="kullanıcı ve yönetici taraflarını düzenleme">
+      <option name="closed" value="true" />
+      <created>1733057924857</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733057924857</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -153,6 +155,7 @@
     <MESSAGE value="Teknik seçmeli Mobil Uygulama Geliştirme adlı dersimin ödev kodlarıdır." />
     <MESSAGE value="Yönlendirme sayfaları ve kontroller" />
     <MESSAGE value="Storage ile kullanıcı bilgilerinin tutulması ve giriş işlemi" />
-    <option name="LAST_COMMIT_MESSAGE" value="Storage ile kullanıcı bilgilerinin tutulması ve giriş işlemi" />
+    <MESSAGE value="kullanıcı ve yönetici taraflarını düzenleme" />
+    <option name="LAST_COMMIT_MESSAGE" value="kullanıcı ve yönetici taraflarını düzenleme" />
   </component>
 </project>
