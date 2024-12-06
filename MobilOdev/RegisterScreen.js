@@ -7,6 +7,7 @@ export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
 
   const isValidEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -30,7 +31,7 @@ export default function RegisterScreen({ navigation }) {
       }
 
 
-      const userData = { email, password };
+      const userData = { name,email, password };
       await setUser(userData);
       alert('Kayıt işlemi başarılı! Giriş yapabilirsiniz.');
       navigation.navigate('Login');
@@ -43,6 +44,12 @@ export default function RegisterScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <Text style={styles.title}>Kayıt Ol</Text>
+      <TextInput
+              style={styles.input}
+              placeholder="Adınız"
+              value={name}
+              onChangeText={setName}
+            />
       <TextInput
         style={styles.input}
         placeholder="E-posta"

@@ -34,7 +34,7 @@ const UserProfileScreen = () => {
   }, []);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> {/* Klavye kapanmasını sağlar */}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Text style={styles.title}>Profilim</Text>
         <TextInput
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#ffffff',
     elevation: 2,
-
   },
 });
 

@@ -11,8 +11,19 @@ const PatientTrackingScreen = () => {
     if (storedResults) {
       const parsedResults = JSON.parse(storedResults);
 
-      const filteredResults = parsedResults.filter(result => result.name === patientName);
+      // Debugging: Verileri kontrol et
+      console.log('Stored Results:', parsedResults);
+
+      // Büyük/küçük harf duyarsız arama
+      const filteredResults = parsedResults.filter(result =>
+        result.name.toLowerCase() === patientName.toLowerCase()
+      );
       setResults(filteredResults);
+
+      // Eğer sonuç yoksa kullanıcıya bilgi ver
+      if (filteredResults.length === 0) {
+        alert('Hasta adıyla eşleşen sonuç bulunamadı.');
+      }
     } else {
       alert('Henüz tahlil sonucu bulunmamaktadır.');
     }

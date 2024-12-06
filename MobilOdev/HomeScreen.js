@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ana Ekran</Text>
-      {user && <Text>Hoşgeldin, {user.email}!</Text>}
+      {user && <Text>Hoşgeldin, {user.name}!</Text>}
       <Button title="Çıkış Yap" onPress={() => navigation.navigate('Login')} />
       <Button title="Test Sonuçları " onPress={() => navigation.navigate('TestList')} />
       <Button title="Profil Düzenleme İşlemleri" onPress={() => navigation.navigate('UserProfile')} />
