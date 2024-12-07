@@ -1,56 +1,76 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, FlatList, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const referenceRanges = {
+  IgA: { low: 0, high: 400 },
+  IgM: { low: 40, high: 230 },
+  IgG: { low: 700, high: 1600 },
+};
+
+const getResultStatus = (testType, value) => {
+  const range = referenceRanges[testType];
+  if (!range) return 'Bilinmiyor';
+  if (value < range.low) return 'Düşük';
+  if (value > range.high) return 'Yüksek';
+  return 'Normal';
+};
 
 const PatientTrackingScreen = () => {
   const [patientName, setPatientName] = useState('');
   const [results, setResults] = useState([]);
 
   const fetchResults = async () => {
-    const storedResults = await AsyncStorage.getItem('results');
+    const storedResults = await AsyncStorage.getItem('testResults');
     if (storedResults) {
       const parsedResults = JSON.parse(storedResults);
+      console.log('Stored Results:', parsedResults); // Kontrol için log ekleyin
 
-      // Debugging: Verileri kontrol et
-      console.log('Stored Results:', parsedResults);
-
-      // Büyük/küçük harf duyarsız arama
+      // Burada yalnızca ilgili hasta adına göre filtreleme yapıyoruz
       const filteredResults = parsedResults.filter(result =>
         result.name.toLowerCase() === patientName.toLowerCase()
       );
+
       setResults(filteredResults);
 
-      // Eğer sonuç yoksa kullanıcıya bilgi ver
       if (filteredResults.length === 0) {
-        alert('Hasta adıyla eşleşen sonuç bulunamadı.');
+        Alert.alert('Bilgi', 'Hasta adıyla eşleşen sonuç bulunamadı.');
       }
     } else {
-      alert('Henüz tahlil sonucu bulunmamaktadır.');
+      Alert.alert('Bilgi', 'Henüz tahlil sonucu bulunmamaktadır.');
     }
   };
 
   const handleSearch = () => {
     if (!patientName) {
-      alert('Lütfen hasta adını girin.');
+      Alert.alert('Hata', 'Lütfen hasta adını girin.');
       return;
     }
     fetchResults();
   };
 
   const compareResults = (currentResult, previousResult) => {
-    if (!previousResult) return 'Yeni sonuç';
+    const changes = {};
+    const tests = ['IgA', 'IgM', 'IgG'];
 
-    const changes = [];
-    if (currentResult.IgA > previousResult.IgA) changes.push('IgA: ↑');
-    else if (currentResult.IgA < previousResult.IgA) changes.push('IgA: ↓');
+    tests.forEach(test => {
+      const currentValue = currentResult.test === test ? parseFloat(currentResult.result) : null;
+      const previousValue = previousResult && previousResult.test === test ? parseFloat(previousResult.result) : null;
 
-    if (currentResult.IgM > previousResult.IgM) changes.push('IgM: ↑');
-    else if (currentResult.IgM < previousResult.IgM) changes.push('IgM: ↓');
+      if (currentValue !== null && previousValue !== null) {
+        if (currentValue > previousValue) {
+          changes[test] = `${previousValue} → ${currentValue} ↑`;
+        } else if (currentValue < previousValue) {
+          changes[test] = `${previousValue} → ${currentValue} ↓`;
+        } else {
+          changes[test] = `${currentValue} (Değişim yok)`;
+        }
+      } else if (currentValue !== null && previousValue === null) {
+        changes[test] = `Yeni sonuç (${currentValue})`;
+      }
+    });
 
-    if (currentResult.IgG > previousResult.IgG) changes.push('IgG: ↑');
-    else if (currentResult.IgG < previousResult.IgG) changes.push('IgG: ↓');
-
-    return changes.length ? changes.join(', ') : 'Değişim yok';
+    return changes;
   };
 
   return (
@@ -60,19 +80,26 @@ const PatientTrackingScreen = () => {
         style={styles.input}
         placeholder="Hasta Adı"
         value={patientName}
-        onChangeText={setPatientName}
+        onChangeText={text => setPatientName(text)} // Girdi metnini güncelle
       />
       <Button title="Ara" onPress={handleSearch} />
       <FlatList
         data={results}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => {
           const previousResult = results[index - 1] || null; // Önceki sonucu al
           const comparison = compareResults(item, previousResult);
+
           return (
             <View style={styles.resultItem}>
+              <Text style={styles.resultDate}>{item.date.split('T')[0]}</Text> {/* Tarih kısmını düzenleyin */}
               <Text style={styles.resultText}>
-                {item.date}: IgA: {item.IgA}, IgM: {item.IgM}, IgG: {item.IgG} ({comparison})
+                IgA: {item.test === 'IgA' ? item.result : '-'}, {' '}
+                IgM: {item.test === 'IgM' ? item.result : '-'}, {' '}
+                IgG: {item.test === 'IgG' ? item.result : '-'} {' '}
+                {comparison.IgA && `IgA: ${comparison.IgA}, `}
+                {comparison.IgM && `IgM: ${comparison.IgM}, `}
+                {comparison.IgG && `IgG: ${comparison.IgG}`}
               </Text>
             </View>
           );
@@ -106,6 +133,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#cccccc',
+  },
+  resultDate: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   resultText: {
     fontSize: 18,

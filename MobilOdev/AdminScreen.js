@@ -1,19 +1,45 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import DataEntryScreen from './DataEntryScreen';
-import CreateGuideScreen from './CreateGuideScreen';
-import PatientTrackingScreen from './PatientTrackingScreen';
-import SearchGuideScreen from './SearchGuideScreen';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { ClearStorage } from './ClearStorage';
+
 const AdminScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Admin Paneli</Text>
-       <Button title="Kılavuz Oluşturma" onPress={() => navigation.navigate('CreateGuide')} />
-      <Button title="Veri Girişi" onPress={() => navigation.navigate('DataEntry')} />
-      <Button title="Hasta Takibi" onPress={() => navigation.navigate('PatientTracking')} />
-      <Button title="Kılavuz Ara" onPress={() => navigation.navigate('SearchGuide')} />
 
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('CreateGuide')}
+      >
+        <Text style={styles.buttonText}>Kılavuz Oluşturma</Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('DataEntry')}
+      >
+        <Text style={styles.buttonText}>Veri Girişi</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('PatientTracking')}
+      >
+        <Text style={styles.buttonText}>Hasta Takibi</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('SearchGuide')}
+      >
+        <Text style={styles.buttonText}>Kılavuz Ara</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('CleatStorage')}
+            >
+              <Text style={styles.buttonText}>Veri Sıfırla</Text>
+            </TouchableOpacity>
     </View>
   );
 };
@@ -21,14 +47,30 @@ const AdminScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#f5f5f5',
     padding: 20,
-    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#333',
+    marginBottom: 40,
+    textAlign: 'center',
+  },
+  button: {
+    width: '80%',
+    padding: 15,
+    backgroundColor: '#4CAF50',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

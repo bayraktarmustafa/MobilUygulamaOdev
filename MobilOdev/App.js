@@ -13,6 +13,7 @@ import PatientTrackingScreen from './PatientTrackingScreen';
 import SearchGuideScreen from './SearchGuideScreen';
 import TestListScreen from './TestListScreen';
 import UserProfileScreen from './UserProfileScreen';
+import ClearStorage from './ClearStorage';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
            <Stack.Screen name="SearchGuide" component={SearchGuideScreen} />
            <Stack.Screen name="UserProfile" component={UserProfileScreen} />
            <Stack.Screen name="TestList" component={TestListScreen} />
+           <Stack.Screen name="CleatStorage" component={ClearStorage} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

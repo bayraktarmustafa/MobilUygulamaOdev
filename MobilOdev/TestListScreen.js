@@ -27,12 +27,36 @@ const getStatusColor = (status) => {
 
 const TestListScreen = () => {
   const [testResults, setTestResults] = useState([]);
+  const [userEmail, setUserEmail] = useState('');
+
+  const loadUserEmail = async () => {
+    try {
+      const storedUser = await AsyncStorage.getItem('user');
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUserEmail(parsedUser.email);
+      }
+    } catch (error) {
+      console.error('Kullanıcı bilgisi yüklenirken hata oluştu:', error);
+    }
+  };
 
   const loadTestResults = async () => {
     try {
       const storedResults = await AsyncStorage.getItem('testResults');
       if (storedResults) {
-        setTestResults(JSON.parse(storedResults));
+        const allResults = JSON.parse(storedResults);
+
+
+        const userResults = allResults.filter(
+          (result) => result.userEmail === userEmail
+        );
+
+        setTestResults(userResults);
+
+        if (userResults.length === 0) {
+          Alert.alert('Bilgi', 'Henüz kayıtlı tahlil sonucu bulunmamaktadır.');
+        }
       } else {
         Alert.alert('Bilgi', 'Henüz kayıtlı tahlil sonucu bulunmamaktadır.');
       }
@@ -42,8 +66,14 @@ const TestListScreen = () => {
   };
 
   useEffect(() => {
-    loadTestResults();
+    loadUserEmail();
   }, []);
+
+  useEffect(() => {
+    if (userEmail) {
+      loadTestResults();
+    }
+  }, [userEmail]);
 
   const renderItem = ({ item }) => {
     const status = getResultStatus(item.test, parseFloat(item.result));

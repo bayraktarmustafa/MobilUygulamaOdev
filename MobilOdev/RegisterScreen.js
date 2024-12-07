@@ -82,12 +82,12 @@ export default function RegisterScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#e0f7fa' },
-  title: { fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginBottom: 30, color: '#00796b' },
+  container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#ffffff' },
+  title: { fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginBottom: 30, color: '#000000' },
   inputContainer: { marginBottom: 20 },
   input: {
     borderWidth: 1,
-    borderColor: '#b2dfdb',
+    borderColor: '#000000',
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,

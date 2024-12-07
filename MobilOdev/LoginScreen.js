@@ -24,7 +24,7 @@ export default function LoginScreen({ navigation }) {
       const parsedUserData = JSON.parse(userData);
 
 
-      if (email === 'mustafa.bayraktar4@ogr.sakarya.edu.tr' && password === '123456') {
+      if (email === 'mustafa@ogr.sakarya' && password === '123456') {
         setUser(parsedUserData);
         navigation.navigate('Admin');
       }
