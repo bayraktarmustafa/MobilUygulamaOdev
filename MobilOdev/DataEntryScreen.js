@@ -39,7 +39,7 @@ const DataEntryScreen = () => {
       test: testType,
       result: result,
       date: new Date().toISOString(),
-      userEmail: userEmail, // Kullanıcı e-posta bilgisi ekleniyor
+      userEmail: userEmail,
     };
 
     resultsArray.push(newEntry);

@@ -7,6 +7,7 @@ const CreateGuideScreen = () => {
   const [guideName, setGuideName] = useState('');
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
+   const [age, setAge] = useState('');
   const [guides, setGuides] = useState([]);
 
   useEffect(() => {
@@ -22,17 +23,18 @@ const CreateGuideScreen = () => {
   }, []);
 
   const handleCreateGuide = async () => {
-    if (guideName && minValue && maxValue) {
-      const newGuide = { id: Math.random().toString(), name: guideName, min: minValue, max: maxValue };
+    if (guideName && minValue && maxValue&& age ) {
+      const newGuide = { id: Math.random().toString(), name: guideName, min: minValue, max: maxValue,age:age };
       const updatedGuides = [...guides, newGuide];
 
 
       await AsyncStorage.setItem('guides', JSON.stringify(updatedGuides));
       setGuides(updatedGuides);
-      alert(`Kılavuz Oluşturuldu: ${guideName} - Min: ${minValue}, Max: ${maxValue}`);
+      alert(`Kılavuz Oluşturuldu: ${guideName} - Yaş${age} - Min: ${minValue}, Max: ${maxValue}`);
       setGuideName('');
       setMinValue('');
       setMaxValue('');
+      setAge('');
     } else {
       alert('Lütfen tüm alanları doldurun.');
     }
@@ -47,6 +49,13 @@ const CreateGuideScreen = () => {
         value={guideName}
         onChangeText={setGuideName}
       />
+      <TextInput
+              style={styles.input}
+              placeholder="Yaş"
+              value={age}
+              keyboardType="numeric"
+              onChangeText={setAge}
+            />
       <TextInput
         style={styles.input}
         placeholder="Min Değer"
@@ -68,7 +77,7 @@ const CreateGuideScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.guideContainer}>
-            <Text style={styles.guideText}>{item.name} - Min: {item.min}, Max: {item.max}</Text>
+            <Text style={styles.guideText}>{item.name} - Yaş: {item.age} - Min: {item.min}, Max: {item.max}</Text>
           </View>
         )}
       />

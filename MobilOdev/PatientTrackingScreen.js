@@ -24,9 +24,9 @@ const PatientTrackingScreen = () => {
     const storedResults = await AsyncStorage.getItem('testResults');
     if (storedResults) {
       const parsedResults = JSON.parse(storedResults);
-      console.log('Stored Results:', parsedResults); // Kontrol için log ekleyin
+      console.log('Stored Results:', parsedResults);
 
-      // Burada yalnızca ilgili hasta adına göre filtreleme yapıyoruz
+
       const filteredResults = parsedResults.filter(result =>
         result.name.toLowerCase() === patientName.toLowerCase()
       );
@@ -80,19 +80,19 @@ const PatientTrackingScreen = () => {
         style={styles.input}
         placeholder="Hasta Adı"
         value={patientName}
-        onChangeText={text => setPatientName(text)} // Girdi metnini güncelle
+        onChangeText={text => setPatientName(text)}
       />
       <Button title="Ara" onPress={handleSearch} />
       <FlatList
         data={results}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => {
-          const previousResult = results[index - 1] || null; // Önceki sonucu al
+          const previousResult = results[index - 1] || null;
           const comparison = compareResults(item, previousResult);
 
           return (
             <View style={styles.resultItem}>
-              <Text style={styles.resultDate}>{item.date.split('T')[0]}</Text> {/* Tarih kısmını düzenleyin */}
+              <Text style={styles.resultDate}>{item.date.split('T')[0]}</Text>
               <Text style={styles.resultText}>
                 IgA: {item.test === 'IgA' ? item.result : '-'}, {' '}
                 IgM: {item.test === 'IgM' ? item.result : '-'}, {' '}

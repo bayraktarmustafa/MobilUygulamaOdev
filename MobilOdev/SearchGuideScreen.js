@@ -7,29 +7,29 @@ const SearchGuideScreen = () => {
   const [guides, setGuides] = useState([]);
   const [filteredGuides, setFilteredGuides] = useState([]);
 
-  const fetchGuides = async () => {
-    const storedGuides = await AsyncStorage.getItem('guides');
-    if (storedGuides) {
-      setGuides(JSON.parse(storedGuides));
-    }
-  };
-
   useEffect(() => {
-    fetchGuides();
+    const loadGuides = async () => {
+      const storedGuides = await AsyncStorage.getItem('guides');
+      if (storedGuides) {
+        setGuides(JSON.parse(storedGuides));
+      }
+    };
+
+    loadGuides();
   }, []);
 
   const handleSearch = () => {
-    if (!age) {
-      alert('Lütfen yaşı girin.');
-      return;
+    if (age) {
+      const results = guides.filter(guide => guide.age === age);
+      if (results.length > 0) {
+        setFilteredGuides(results);
+      } else {
+        alert('Girilen yaş için kılavuz bulunamadı.');
+        setFilteredGuides([]);
+      }
+    } else {
+      alert('Lütfen bir yaş girin.');
     }
-
-    const results = guides.filter(guide => {
-      // Burada yaşa göre kılavuz arama kriterlerinizi belirleyebilirsiniz.
-      return true; // Tüm kılavuzları gösteriyor, burada yaş kontrolü eklemelisiniz.
-    });
-
-    setFilteredGuides(results);
   };
 
   return (
@@ -39,17 +39,19 @@ const SearchGuideScreen = () => {
         style={styles.input}
         placeholder="Yaş"
         value={age}
-        onChangeText={setAge}
         keyboardType="numeric"
+        onChangeText={setAge}
       />
       <Button title="Ara" onPress={handleSearch} />
+
       <FlatList
         data={filteredGuides}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.guideItem}>
-            <Text style={styles.guideText}>{item.name}</Text>
-            <Text style={styles.guideText}>Min: {item.min}, Max: {item.max}</Text>
+          <View style={styles.guideContainer}>
+            <Text style={styles.guideText}>
+              {item.name} - Yaş: {item.age} - Min: {item.min}, Max: {item.max}
+            </Text>
           </View>
         )}
       />
@@ -77,13 +79,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#ffffff',
   },
-  guideItem: {
+  guideContainer: {
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
+    backgroundColor: '#f9f9f9',
+    borderRadius: 5,
+    marginVertical: 5,
   },
   guideText: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 
